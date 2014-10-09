@@ -47,10 +47,17 @@
       </div>
     </div>
 
-    <div class="container" id="content">
-
-    {% block content %}
-    {% endblock %}
+   <div class="container-fluid" id="content">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            {% block sidebar %}
+            {% endblock %}
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            {% block content %}
+            {% endblock %}
+        </div>
+      </div>
     </div><!-- /.container -->
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

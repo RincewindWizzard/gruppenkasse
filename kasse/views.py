@@ -25,6 +25,8 @@ def personen(request):
         'personen': Person.objects.all(),
         'location': "personen",
     }
+    for person in context['personen']:
+        person.veranstaltungen = person.teilnahmen.all()
     return render(request, 'kasse/personen.tpl', context)
     
     
