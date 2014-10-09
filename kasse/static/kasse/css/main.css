@@ -16,9 +16,8 @@ body {
     color: #A94442;
 }
 
-.sidebar {
+#sidebar-wrapper {
     background-color: #F7F7F9;
-    height: 100%;
 }
 
 .compact_table {

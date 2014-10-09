@@ -38,7 +38,7 @@
                 <li class='{% if location == "veranstaltungen" %} active {% endif %}'><a href="{% url 'veranstaltungen' %}">Veranstaltungen</a></li>
             {% endblock %}
             {% block personen_nav %}
-                <li {% if location == "personen" %} class='active' {% endif %}><a href="{% url 'personen' %}">Personen</a></li>
+                <li {% if location == "personen" %} class='active' {% endif %}><a href="{% url 'person' %}">Personen</a></li>
             {% endblock %}
             {% block buchungen_nav %}
                 <li {% if location == "buchungen" %} class='active' {% endif %}><a href="{% url 'buchungen' %}">Buchungen</a></li>

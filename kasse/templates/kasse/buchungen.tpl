@@ -14,7 +14,7 @@
     <tbody>
     {% for buchung in buchungen %}
         <tr class="{% if buchung.betrag >= 0 %} success {% else %} danger {% endif %}">
-            <td><a href="{% url 'personen' %}#{{ buchung.person|slugify }}">{{ buchung.person }}</a></td>
+            <td><a href="{% url 'person' buchung.person|slugify %}">{{ buchung.person }}</a></td>
             <td>{{ buchung.datum }}</td>
             <td><a href="{% url 'veranstaltungen' %}#{{ buchung.verwendungszweck|slugify }}"> {{ buchung.verwendungszweck }}</a></td>
             <td class="text-right">

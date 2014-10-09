@@ -17,6 +17,8 @@ class VeranstaltungAdmin(admin.ModelAdmin):
     inlines      = [VeranstaltungspositionInline]
     
 class PersonAdmin(admin.ModelAdmin):
+    #prepopulated_fields = {"slug": ("vorname",)}
+    exclude = ('slug',)
     fieldsets = [
         (None,               {'fields': ['vorname', 'nachname']}),
         ('Veranstaltungen', {'fields': ['teilnahmen'], 'classes': ['collapse']}),

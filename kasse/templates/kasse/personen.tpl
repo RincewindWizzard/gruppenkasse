@@ -3,40 +3,41 @@
 {% block sidebar %}
 <ul class="nav nav-sidebar ">
     {% for person in personen %}
-        <li><a href="#{{ person|slugify }}">{{ person }}</a></li>
+        <li><a href="{% url 'person' person|slugify %}">{{ person }}</a></li>
     {% endfor %}
 </ul>
 {% endblock %}
 
 {% block content %}
-    {% for person in personen %}
-        {% with vorname=person.vorname veranstaltungen=person.veranstaltungen forderungen=person.forderungen eingezahlt=person.eingezahlt saldo=person.saldo%}
+    {% if person == None %}
+        Bite w&auml;hlen Sie eine Person in der Sidebar. {{ slug }}
+    {% else %}
             <h1 id="{{ person|slugify }}">{{ person }}</h1>
             
-            {% if saldo < 0 %}
+            {% if person.saldo < 0 %}
                 <div class="alert alert-danger compact" role="alert">
                     <div class="panel-body">
-                        Es fehlen noch {{ saldo }} &euro;.
+                        Es fehlen noch {{ person.saldo }} &euro;.
                     </div>
                 </div>
-            {% elif saldo > 0 %}
+            {% elif person.saldo > 0 %}
                 <div class="alert alert-success compact" role="alert">
                     <div class="panel-body">
-                        {{ vorname }} erh&auml;lt noch {{ saldo }} &euro;.
+                        {{ person.vorname }} erh&auml;lt noch {{ person.saldo }} &euro;.
                     </div>
                 </div>
             {% endif %}
             <p>
-            {{ vorname }} hat an
-            {% for veranstaltung in veranstaltungen %} 
+            {{ person.vorname }} hat an
+            {% for veranstaltung in person.teilnahmen.all %} 
                 <a href="{% url 'veranstaltungen' %}#{{ veranstaltung|slugify }}">{{ veranstaltung }}</a>{% if not forloop.last %}{% if forloop.revcounter0 > 1 %}, {% else %} und {% endif %}{% endif %}
             {% endfor %}
-            teilgenommen.
+            teilgenommen, insgesamt {{ person.eingezahlt}} &euro; eingezahlt und ist mit {{ person.forderungen }} &euro; an Veranstaltungen beteiligt.
             </p>
             
-            <p>
-                 {{ vorname }} hat insgesamt {{ eingezahlt}} &euro; eingezahlt und ist mit {{ forderungen }} &euro; an Veranstaltungen beteiligt.
-            </p>
+            {% if person.buchungen|length == 0 %}
+                {{ person.vorname }} hat bis jetzt noch keine Buchungen vorgenommen.
+            {% else %}
             <table class="table">
                 <thead>
                     <tr>
@@ -56,7 +57,7 @@
                     </tr>
                 {% endfor %}
             </table>
+            {% endif %}
         
-        {% endwith %}
-    {% endfor %}
+    {% endif %}
 {% endblock %}

@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
-
+from django.template.defaultfilters import slugify
 
 @python_2_unicode_compatible
 class Veranstaltung(models.Model):
@@ -13,8 +13,28 @@ class Veranstaltung(models.Model):
 class Person(models.Model):
     vorname    = models.CharField(max_length=30)
     nachname   = models.CharField(max_length=30)
+    slug       = models.SlugField()
     teilnahmen = models.ManyToManyField(Veranstaltung, blank=True)
     
+    def eingezahlt(self):
+        ret = 0
+        for buchung in Buchung.objects.filter(person=self):
+                ret += buchung.betrag
+        return ret
+        
+    def forderungen(self):
+        return 0 #TODO: implement
+                
+    def saldo(self):
+        return self.eingezahlt() - self.forderungen()
+
+    def buchungen(self)       :
+        return Buchung.objects.filter(person=self)       
+    
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.vorname + " " + self.nachname)
+        super(Person, self).save(*args, **kwargs)
+        
     def __str__(self):
         return self.vorname + " " + self.nachname
 
