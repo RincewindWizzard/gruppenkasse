@@ -24,13 +24,18 @@
      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
+
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
+            <span class="sr-only">Zeige Navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="{% url 'index' %}">Gruppenkasse</a>
+          <button type="button"  id="menu-toggle" class="btn btn-default  navbar-toggle">
+            <span class="sr-only">Zeige Sidebar</span>
+            <span class="icon-bar"></span>
+          </button>
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
@@ -54,7 +59,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <div id="sidebar-wrapper">
+        <div id="sidebar-wrapper" class="navbar navbar-default">
            {% block sidebar %}{% endblock %}          
         </div>
         <!-- /#sidebar-wrapper -->
@@ -65,7 +70,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="visible-xs visible-sm">
-                            <a href="#menu-toggle" class="btn btn-default mobile-only" id="menu-toggle">Toggle Menu</a>
+                            
                         </div>
                         {% block content %}{% endblock %}
                     </div>

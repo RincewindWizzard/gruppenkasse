@@ -30,4 +30,14 @@ body {
 }
 
 
+.nav-sidebar li.active {
+    background-color: #CCC;
+}
+
+.nav-sidebar li.active a:hover {
+    background-color: #CCC;
+
+}
+
+
 

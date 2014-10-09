@@ -6,5 +6,6 @@ urlpatterns = patterns('',
     url(r'^buchungen/$', views.buchungen, name='buchungen'),
     url(r'^personen/$', views.person, {'person_slug': None}, name='person'),
     url(r'^personen/(.*)$', views.person, name='person'),
-    url(r'^veranstaltungen/$', views.veranstaltungen, name='veranstaltungen'),
+    url(r'^veranstaltungen/$', views.veranstaltungen, {'veranstaltung_slug': None}, name='veranstaltungen'),
+    url(r'^veranstaltungen/(.*)$', views.veranstaltungen, name='veranstaltungen'),
 )

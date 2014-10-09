@@ -14,6 +14,7 @@ class VeranstaltungspositionInline(admin.TabularInline):
 
 class VeranstaltungAdmin(admin.ModelAdmin):
     list_display = ('name', 'datum')
+    exclude = ('slug',)
     inlines      = [VeranstaltungspositionInline]
     
 class PersonAdmin(admin.ModelAdmin):
