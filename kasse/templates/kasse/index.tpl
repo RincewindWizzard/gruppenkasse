@@ -33,20 +33,15 @@
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class='dropdown {% if location == "veranstaltungen" %} active {% endif %}'>
-                <a class="dropdown-toggle" data-toggle="dropdown" >Veranstaltungen <span class="caret"></span></a>
-                <ul class="dropdown-menu" role="menu">
-                <li><a href="{% url 'veranstaltungen' %}">Alle Veranstaltungen</a></li>
-                <li class="divider"></li>
-                {% for veranstaltung in veranstaltungen %}
-                    <li><a href="{% url 'veranstaltungen' %}#{{ veranstaltung }}">{{ veranstaltung }}</a></li>
-                {% endfor %}
-              </ul>
-            </li>
+            {% block veranstaltung_nav %}
+                <li class='{% if location == "veranstaltungen" %} active {% endif %}'><a href="{% url 'veranstaltungen' %}">Veranstaltungen</a></li>
+            {% endblock %}
             {% block personen_nav %}
                 <li {% if location == "personen" %} class='active' {% endif %}><a href="{% url 'personen' %}">Personen</a></li>
             {% endblock %}
-            <li {% if location == "buchungen" %} class='active' {% endif %}><a href="{% url 'buchungen' %}">Buchungen</a></li>
+            {% block buchungen_nav %}
+                <li {% if location == "buchungen" %} class='active' {% endif %}><a href="{% url 'buchungen' %}">Buchungen</a></li>
+            {% endblock %}
           </ul>
         </div><!--/.nav-collapse -->
       </div>
