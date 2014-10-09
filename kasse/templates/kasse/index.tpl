@@ -9,7 +9,7 @@
 
     <!-- Bootstrap -->
     <link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
-    <link href="{% static "bootstrap/css/simple-sidebar.css" %}" rel="stylesheet">
+    {% block sidebar_include %}<link href="{% static "bootstrap/css/simple-sidebar.css" %}" rel="stylesheet">{% endblock %}
     
     <link href="{% static "kasse/css/main.css" %}" rel="stylesheet">
 
@@ -58,20 +58,13 @@
     
     <div id="wrapper">
 
-        <!-- Sidebar -->
-        <div id="sidebar-wrapper" class="navbar navbar-default">
-           {% block sidebar %}{% endblock %}          
-        </div>
-        <!-- /#sidebar-wrapper -->
-
+        {% block sidebar %}{% endblock %} 
+        
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-12">
-                        <div class="visible-xs visible-sm">
-                            
-                        </div>
+                    <div class="{% block grid_class %}col-lg-12{% endblock %}">
                         {% block content %}{% endblock %}
                     </div>
                 </div>

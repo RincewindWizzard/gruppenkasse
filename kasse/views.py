@@ -12,9 +12,14 @@ def index(request):
     
 
     
-def buchungen(request):  
+def buchungen(request):
+    saldo = 0
+    for buchung in Buchung.objects.all():
+        saldo += buchung.betrag
+        
     context = {
         'buchungen': Buchung.objects.all().order_by('datum'),
+        'saldo': saldo,
         'location': "buchungen",
     }
     return render(request, 'kasse/buchungen.tpl', context)

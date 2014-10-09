@@ -63,7 +63,7 @@ class Person(models.Model):
 
 
 class Buchung(models.Model):
-    person           = models.ForeignKey(Person)
+    person           = models.ForeignKey(Person, null=True, blank=True, default = None)
     datum            = models.DateField()
     verwendungszweck = models.CharField(max_length=100)
     betrag           = models.DecimalField(max_digits=6, decimal_places=2)

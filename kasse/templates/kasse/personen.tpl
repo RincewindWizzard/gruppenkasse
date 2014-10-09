@@ -1,11 +1,14 @@
 {% extends "kasse/index.tpl" %}
 
 {% block sidebar %}
-<ul class="nav nav-sidebar ">
-    {% for p in personen %}
-        <li class="{% ifequal person p %}active{% endifequal %}"><a href="{% url 'person' p|slugify %}" class="navbar-link">{{ p }}</a></li>
-    {% endfor %}
-</ul>
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper" class="navbar navbar-default">
+        <ul class="nav nav-sidebar ">
+            {% for p in personen %}
+                <li class="{% ifequal person p %}active{% endifequal %}"><a href="{% url 'person' p|slugify %}" class="navbar-link">{{ p }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}
 
 {% block content %}
@@ -34,7 +37,7 @@
                     keiner Veranstaltung
                 {% else %}
                     {% for veranstaltung in veranstaltungen %} 
-                        <a href="{% url 'veranstaltungen' %}#{{ veranstaltung|slugify }}">{{ veranstaltung }}</a>
+                        <a href="{% url 'veranstaltungen' veranstaltung|slugify %}">{{ veranstaltung }}</a>
                         {% if not forloop.last %}{% if forloop.revcounter0 > 1 %}, {% else %} und {% endif %}{% endif %}
                     {% endfor %}
                 {% endif %}
@@ -57,7 +60,7 @@
                 {% for buchung in person.buchungen %}
                     <tr class="{% if buchung.betrag >= 0 %} success {% else %} danger {% endif %}">
                         <td>{{ buchung.datum }}</td>
-                        <td><a href="{% url 'veranstaltungen' %}#{{ buchung.verwendungszweck|slugify }}"> {{ buchung.verwendungszweck }}</a></td>
+                        <td>{{ buchung.verwendungszweck }}</td>
                         <td class="text-right">
                             {% if buchung.betrag >= 0 %}+{% endif %}{{ buchung.betrag|floatformat:2 }} &euro;
                         </td>
