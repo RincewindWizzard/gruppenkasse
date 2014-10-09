@@ -9,6 +9,7 @@
 
     <!-- Bootstrap -->
     <link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "bootstrap/css/simple-sidebar.css" %}" rel="stylesheet">
     
     <link href="{% static "kasse/css/main.css" %}" rel="stylesheet">
 
@@ -47,18 +48,34 @@
       </div>
     </div>
 
-   <div class="container-fluid" id="content">
-      <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-            {% block sidebar %}
-            {% endblock %}
+
+
+    
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+           {% block sidebar %}{% endblock %}          
         </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            {% block content %}
-            {% endblock %}
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="visible-xs visible-sm">
+                            <a href="#menu-toggle" class="btn btn-default mobile-only" id="menu-toggle">Toggle Menu</a>
+                        </div>
+                        {% block content %}{% endblock %}
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div><!-- /.container -->
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="{% static "bootstrap/js/jquery-2.1.1.min.js" %}"></script>

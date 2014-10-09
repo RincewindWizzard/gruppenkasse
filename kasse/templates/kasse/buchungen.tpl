@@ -13,11 +13,11 @@
     </thead>
     <tbody>
     {% for buchung in buchungen %}
-        <tr>
-            <td>{{ buchung.person }}</td>
+        <tr class="{% if buchung.betrag >= 0 %} success {% else %} danger {% endif %}">
+            <td><a href="{% url 'personen' %}#{{ buchung.person|slugify }}">{{ buchung.person }}</a></td>
             <td>{{ buchung.datum }}</td>
-            <td>{{ buchung.verwendungszweck }}</td>
-            <td class="text-right {% if buchung.betrag >= 0 %} einzahlung {% else %} auszahlung {% endif %}">
+            <td><a href="{% url 'veranstaltungen' %}#{{ buchung.verwendungszweck|slugify }}"> {{ buchung.verwendungszweck }}</a></td>
+            <td class="text-right">
                 {% if buchung.betrag >= 0 %}+{% endif %}{{ buchung.betrag }} &euro;
             </td>
         </tr>

@@ -25,8 +25,19 @@ def personen(request):
         'personen': Person.objects.all(),
         'location': "personen",
     }
+    # wichtige informationen fuer eine person hinzufuegen
     for person in context['personen']:
         person.veranstaltungen = person.teilnahmen.all()
+        person.eingezahlt = 0
+        person.forderungen = 0    #TODO: implement
+       
+        for buchung in Buchung.objects.filter(person=person):
+            person.eingezahlt += buchung.betrag
+            
+        person.saldo = person.eingezahlt - person.forderungen
+        
+        person.buchungen = Buchung.objects.filter(person=person)
+        
     return render(request, 'kasse/personen.tpl', context)
     
     
