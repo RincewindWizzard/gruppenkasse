@@ -7,6 +7,14 @@
             {% for v in veranstaltungen %}
                 <li class="{% ifequal veranstaltung v %}active{% endifequal %}"><a href="{% url 'veranstaltungen' v.slug %}" class="navbar-link">{{ v }}</a></li>
             {% endfor %}
+            <li>
+                <div class="input-group">
+                  <input type="text" class="form-control">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                  </span>
+                </div><!-- /input-group -->
+            </li>
         </ul>
     </div>
 {% endblock %}
@@ -39,6 +47,7 @@
                     </a>
                 {% endfor %}
             </div>
+            <button type="button" class="btn btn-success pull-right">Hinzuf&uuml;gen</button>
         {% endif %}
     {% endif %}
    

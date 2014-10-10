@@ -13,7 +13,11 @@
         <div class="panel panel-default">
             <!-- Default panel contents -->
             <div class="panel-body">
-                <p>Es befinden sich {{ saldo|floatformat:2 }} &euro; in der Gruppenkasse.</p>
+                <p>
+                    Es wurden {{ buchungen_saldo|floatformat:2 }} &euro; eingezahlt. 
+                    Davon wurden {{ veranstaltungen_kosten|floatformat:2 }} &euro; in Veranstaltungen investiert. 
+                    Es sind also noch {{ saldo|floatformat:2 }} &euro; &uuml;brig.
+                </p>
             </div>
             
             <table class="table">
@@ -36,8 +40,15 @@
                         </td>
                     </tr>
                 {% endfor %}
+                <tr>
+                    <td><input class="form-control" id="person" placeholder="Person"></td>
+                    <td><input class="form-control" id="datum" placeholder="Datum"></td>
+                    <td><input class="form-control" id="verwendungszweck" placeholder="Verwendungszweck"></td>
+                    <td><input class="form-control" id="betrag" placeholder="Betrag in  &euro;"></td>
+                </tr>
             </table>
         </div>
+        <button type="button" class="btn btn-success pull-right">Hinzuf&uuml;gen</button>
     {% endif %}
 {% endblock %}
 

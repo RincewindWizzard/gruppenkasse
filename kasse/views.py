@@ -13,13 +13,20 @@ def index(request):
 
     
 def buchungen(request):
-    saldo = 0
+    buchungen_saldo = 0
+    veranstaltungen_kosten = 0
+
     for buchung in Buchung.objects.all():
-        saldo += buchung.betrag
+        buchungen_saldo += buchung.betrag
+        
+    for veranstaltung in Veranstaltung.objects.all():
+        veranstaltungen_kosten += veranstaltung.kosten()        
         
     context = {
         'buchungen': Buchung.objects.all().order_by('datum'),
-        'saldo': saldo,
+        'buchungen_saldo': buchungen_saldo,
+        'veranstaltungen_kosten': veranstaltungen_kosten,
+        'saldo' : buchungen_saldo - veranstaltungen_kosten,
         'location': "buchungen",
     }
     return render(request, 'kasse/buchungen.tpl', context)

@@ -7,6 +7,14 @@
             {% for p in personen %}
                 <li class="{% ifequal person p %}active{% endifequal %}"><a href="{% url 'person' p|slugify %}" class="navbar-link">{{ p }}</a></li>
             {% endfor %}
+            <li>
+                <div class="input-group">
+                  <input type="text" class="form-control">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                  </span>
+                </div><!-- /input-group -->
+            </li>
         </ul>
     </div>
 {% endblock %}
@@ -42,7 +50,8 @@
                     {% endfor %}
                 {% endif %}
             {% endwith %}
-            teilgenommen, insgesamt {{ person.eingezahlt|floatformat:2 }} &euro; eingezahlt und ist mit Kosten von {{ person.forderungen|floatformat:2 }} &euro; an Veranstaltungen beteiligt. 
+            teilgenommen{% if person.eingezahlt != 0 %}, insgesamt {{ person.eingezahlt|floatformat:2 }} &euro; eingezahlt{% endif %}{% if person.forderungen == 0 %}.
+            {% else %} und ist mit Kosten von {{ person.forderungen|floatformat:2 }} &euro; an Veranstaltungen beteiligt. {% endif %}
             </p>
             
             {% if person.buchungen|length == 0 %}
