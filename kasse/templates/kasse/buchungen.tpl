@@ -40,12 +40,12 @@
                         </td>
                     </tr>
                 {% endfor %}
-                <tr>
+                <!--<tr>
                     <td><input class="form-control" id="person" placeholder="Person"></td>
                     <td><input class="form-control" id="datum" placeholder="Datum"></td>
                     <td><input class="form-control" id="verwendungszweck" placeholder="Verwendungszweck"></td>
                     <td><input class="form-control" id="betrag" placeholder="Betrag in  &euro;"></td>
-                </tr>
+                </tr>-->
             </table>
         </div>
         <button type="button" class="btn btn-success pull-right">Hinzuf&uuml;gen</button>

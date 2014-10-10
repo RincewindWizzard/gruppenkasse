@@ -31,11 +31,11 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="{% url 'index' %}">Gruppenkasse</a>
-          <button type="button"  id="menu-toggle" class="btn btn-default  navbar-toggle">
+          <a class="navbar-brand" id="menu-toggle" href="{% url 'index' %}">Gruppenkasse</a>
+          <!--<button type="button"  id="menu-toggle" class="btn btn-default  navbar-toggle">
             <span class="sr-only">Zeige Sidebar</span>
             <span class="icon-bar"></span>
-          </button>
+          </button>-->
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">

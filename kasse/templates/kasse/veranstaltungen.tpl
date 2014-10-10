@@ -7,6 +7,7 @@
             {% for v in veranstaltungen %}
                 <li class="{% ifequal veranstaltung v %}active{% endifequal %}"><a href="{% url 'veranstaltungen' v.slug %}" class="navbar-link">{{ v }}</a></li>
             {% endfor %}
+            <li class="nav-divider"></li>
             <li>
                 <div class="input-group">
                   <input type="text" class="form-control">
@@ -41,7 +42,7 @@
                     <a href="{% url 'person' teilnehmer|slugify %}" class="list-group-item {% if teilnehmer.saldo >= 0 %} list-group-item-success {% else %} list-group-item-danger {% endif %}">
                         {{ teilnehmer }}
                         {% if teilnehmer.saldo < 0 %}
-                            <span class="badge">Es fehlen noch {{ teilnehmer.saldo }} &euro;</span>
+                            <span class="badge">{{ teilnehmer.saldo }} &euro; fehlen</span>
                         {% endif %}
 
                     </a>

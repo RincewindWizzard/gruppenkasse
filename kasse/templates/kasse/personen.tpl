@@ -7,6 +7,7 @@
             {% for p in personen %}
                 <li class="{% ifequal person p %}active{% endifequal %}"><a href="{% url 'person' p|slugify %}" class="navbar-link">{{ p }}</a></li>
             {% endfor %}
+            <li class="nav-divider"></li>
             <li>
                 <div class="input-group">
                   <input type="text" class="form-control">
