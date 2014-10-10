@@ -41,7 +41,7 @@
             {% endif %}
             <p>
             {{ person.vorname }} hat an
-            {% with veranstaltungen=person.teilnahmen.all %}
+            {% with veranstaltungen=person.veranstaltungen %}
                 {% if veranstaltungen|length == 0 %}
                     keiner Veranstaltung
                 {% else %}

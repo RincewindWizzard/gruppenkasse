@@ -1,5 +1,9 @@
-from django.shortcuts import render, render_to_response, redirect
+# -*- coding: utf-8 -*-
+from django.shortcuts import render, render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
+from django.http import HttpResponse
+from django.utils.html import escape
+import json
 from kasse.models import Veranstaltung, Person, Buchung, Veranstaltungsposition
 
 def index(request):
@@ -73,4 +77,15 @@ def veranstaltungen(request, veranstaltung_slug):
     }
     return render(request, 'kasse/veranstaltungen.tpl', context)
     
+def teilnehmer_json(request, veranstaltung_slug):
+    veranstaltung = get_object_or_404(Veranstaltung, slug=veranstaltung_slug)
     
+    json_dict = []
+    for teilnehmer in veranstaltung.teilnehmer():
+        row = {'Name': str(teilnehmer)}
+        for position in teilnehmer.veranstaltungspositionen(veranstaltung):
+            print unicode(position.verwendungszweck)
+            row[escape(unicode(position.verwendungszweck))] = True
+        json_dict.append(row)
+            
+    return HttpResponse(unicode(json.dumps(json_dict, ensure_ascii=False)), content_type="application/json; charset=utf-8")

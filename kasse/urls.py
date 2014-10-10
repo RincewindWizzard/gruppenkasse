@@ -8,4 +8,5 @@ urlpatterns = patterns('',
     url(r'^personen/(.*)$', views.person, name='person'),
     url(r'^veranstaltungen/$', views.veranstaltungen, {'veranstaltung_slug': None}, name='veranstaltungen'),
     url(r'^veranstaltungen/(.*)$', views.veranstaltungen, name='veranstaltungen'),
+    url(r'^json/teilnehmer/(.*)$', views.teilnehmer_json, name='teilnehmer_json'),
 )

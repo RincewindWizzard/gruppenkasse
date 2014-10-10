@@ -14,9 +14,14 @@ class Veranstaltung(models.Model):
         for position in Veranstaltungsposition.objects.filter(veranstaltung=self):
             kosten_sum += position.betrag
         return kosten_sum
-        
-    def kosten_pro_person(self):
-        return float(self.kosten()) / self.person_set.count()
+   
+    def teilnehmer(self):
+        teiln = []
+        for position in self.veranstaltungsposition_set.all():
+            for person in position.person_set.all():
+                if not person in teiln:
+                    teiln.append(person)
+        return teiln
     
     def positionen(self):
         return self.veranstaltungsposition_set.all()
@@ -29,12 +34,36 @@ class Veranstaltung(models.Model):
     def __str__(self):
         return self.name
 
+@python_2_unicode_compatible 
+class Veranstaltungsposition(models.Model):
+    veranstaltung    = models.ForeignKey(Veranstaltung)
+    verwendungszweck = models.CharField(max_length=100)
+    betrag           = models.DecimalField(max_digits=6, decimal_places=2)
+    
+    def kosten_pro_person(self):
+        return float(self.betrag) / self.person_set.count()
+    
+    def __str__(self):
+        return str(self.veranstaltung) + " > " + self.verwendungszweck
+    
+
+
 @python_2_unicode_compatible
 class Person(models.Model):
     vorname    = models.CharField(max_length=30)
     nachname   = models.CharField(max_length=30)
     slug       = models.SlugField()
-    teilnahmen = models.ManyToManyField(Veranstaltung, blank=True)
+    teilnahmen = models.ManyToManyField(Veranstaltungsposition, blank=True)
+    
+    def veranstaltungen(self, veranstaltung=None):
+        veranstaltungen = []
+        for position in self.teilnahmen.all():
+            if not position.veranstaltung in veranstaltungen:
+                veranstaltungen.append(position.veranstaltung)
+        return veranstaltungen
+    
+    def veranstaltungspositionen(self, veranstaltung):
+        return self.teilnahmen.filter(veranstaltung=veranstaltung)
     
     def eingezahlt(self):
         ret = 0
@@ -68,13 +97,4 @@ class Buchung(models.Model):
     verwendungszweck = models.CharField(max_length=100)
     betrag           = models.DecimalField(max_digits=6, decimal_places=2)
 
-@python_2_unicode_compatible 
-class Veranstaltungsposition(models.Model):
-    veranstaltung    = models.ForeignKey(Veranstaltung)
-    verwendungszweck = models.CharField(max_length=100)
-    betrag           = models.DecimalField(max_digits=6, decimal_places=2)
-    
-    def __str__(self):
-        return self.verwendungszweck
-    
 

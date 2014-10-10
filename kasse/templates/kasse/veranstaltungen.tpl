@@ -38,7 +38,7 @@
             <h1>Teilnehmer</h1>
             
             <div class="list-group">
-                {% for teilnehmer in veranstaltung.person_set.all %}
+                {% for teilnehmer in veranstaltung.teilnehmer %}
                     <a href="{% url 'person' teilnehmer|slugify %}" class="list-group-item {% if teilnehmer.saldo >= 0 %} list-group-item-success {% else %} list-group-item-danger {% endif %}">
                         {{ teilnehmer }}
                         {% if teilnehmer.saldo < 0 %}
