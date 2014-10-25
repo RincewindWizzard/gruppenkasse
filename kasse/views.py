@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, render_to_response, redirect, get_object_or_404
+from django.contrib.auth import authenticate, login
 from django.db.models import Sum
 from django.template import RequestContext
 from django.views.generic import ListView, DetailView
@@ -103,3 +104,12 @@ def teilnehmer_json(request, veranstaltung_slug):
         json_dict.append(row)
             
     return HttpResponse(unicode(json.dumps(json_dict, ensure_ascii=False)), content_type="application/json; charset=utf-8")
+    
+# loggt einen Besucher als Gast account ein
+def gast_login(request, token):
+    user = authenticate(username="gast", password=token)
+    if user is not None:
+        if user.is_active:
+            login(request, user)
+    return redirect('buchungen')
+
