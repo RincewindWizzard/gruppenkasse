@@ -28,27 +28,36 @@
         Die {{ veranstaltung }} hat {{ veranstaltung.kosten }} &euro; gekostet. 
         Davon fallen 
         {% for position in veranstaltung.positionen %}
-            {{ position.betrag }} &euro; auf {{ position }}{% if not forloop.last %}{% if forloop.revcounter0 > 1 %}, {% else %} und {% endif %}{% else %}.{% endif %}
+            {{ position.betrag }} &euro; auf {{ position.verwendungszweck }}{% if not forloop.last %}{% if forloop.revcounter0 > 1 %}, {% else %} und {% endif %}{% else %}.{% endif %}
         {% endfor %}
         </p>
         
-        {% if veranstaltung.person_set.all|length == 0 %}
+        {% if veranstaltung.teilnehmer|length == 0 %}
             <p>Es gibt bis jetzt noch keine Teilnehmer f&uuml;r diese Veranstaltung.</p>
         {% else %}
             <h1>Teilnehmer</h1>
             
-            <div class="list-group">
-                {% for teilnehmer in veranstaltung.teilnehmer %}
-                    <a href="{% url 'person' teilnehmer|slugify %}" class="list-group-item {% if teilnehmer.saldo >= 0 %} list-group-item-success {% else %} list-group-item-danger {% endif %}">
-                        {{ teilnehmer }}
-                        {% if teilnehmer.saldo < 0 %}
-                            <span class="badge">{{ teilnehmer.saldo }} &euro; fehlen</span>
-                        {% endif %}
-
-                    </a>
-                {% endfor %}
-            </div>
-            <button type="button" class="btn btn-success pull-right">Hinzuf&uuml;gen</button>
+             <table class="table">
+                <thead>
+                    <tr>
+                        <th>Person</th>
+                        {% for position in veranstaltung.positionen %}
+                            <th>{{ position.verwendungszweck }}</th>
+                        {% endfor %}
+                        <th>Bezahlt</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for person in veranstaltung.teilnehmer %}
+                        <tr>
+                            <td>{{person.vorname}}</td>
+                            {% for position in veranstaltung.positionen %}
+                                <td>{{person.positionen}}{% if position.verwendungszweck in person.positionen %}True{% else %}False {% endif %}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         {% endif %}
     {% endif %}
    

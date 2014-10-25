@@ -82,7 +82,7 @@ def teilnehmer_json(request, veranstaltung_slug):
     
     json_dict = []
     for teilnehmer in veranstaltung.teilnehmer():
-        row = {'Name': str(teilnehmer)}
+        row = {'name': unicode(teilnehmer)}
         for position in teilnehmer.veranstaltungspositionen(veranstaltung):
             print unicode(position.verwendungszweck)
             row[escape(unicode(position.verwendungszweck))] = True

@@ -62,8 +62,11 @@ class Person(models.Model):
                 veranstaltungen.append(position.veranstaltung)
         return veranstaltungen
     
-    def veranstaltungspositionen(self, veranstaltung):
-        return self.teilnahmen.filter(veranstaltung=veranstaltung)
+    def positionen(self, veranstaltung):
+        pos = []
+        for position in self.teilnahmen.filter(veranstaltung=veranstaltung):
+            pos.append(unicode(position.verwendungszweck))
+        return pos
     
     def eingezahlt(self):
         ret = 0

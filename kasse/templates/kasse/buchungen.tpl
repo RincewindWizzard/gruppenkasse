@@ -29,7 +29,6 @@
                       <th class="text-right">Betrag</th>
                     </tr>
                 </thead>
-                <tbody>
                 {% for buchung in buchungen %}
                     <tr class="{% if buchung.betrag >= 0 %} success {% else %} danger {% endif %}">
                         <td>{% if buchung.person %}<a href="{% url 'person' buchung.person|slugify %}">{{ buchung.person }}</a>{% else %}Spende{% endif %}</td>

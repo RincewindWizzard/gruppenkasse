@@ -10,6 +10,7 @@
     <!-- Bootstrap -->
     <link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
     {% block sidebar_include %}<link href="{% static "bootstrap/css/simple-sidebar.css" %}" rel="stylesheet">{% endblock %}
+    <link href="{% static "bootstrap/css/bootstrap-table.css" %}" rel="stylesheet">
     
     <link href="{% static "kasse/css/main.css" %}" rel="stylesheet">
 
@@ -79,6 +80,7 @@
     <script src="{% static "bootstrap/js/jquery-2.1.1.min.js" %}"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+    <script src="{% static "bootstrap/js/bootstrap-table.min.js" %}"></script>
     
     <script src="{% static "kasse/js/main.js" %}"></script>
   </body>
