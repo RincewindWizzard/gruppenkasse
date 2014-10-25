@@ -32,7 +32,10 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" id="menu-toggle" href="{% url 'index' %}">Gruppenkasse</a>
+          <a class="navbar-brand" id="menu-toggle" href="{% url 'index' %}">
+            <img src='{% static 'kasse/img/sidebar-icon.png' %}'/>
+            Gruppenkasse
+          </a>
           <!--<button type="button"  id="menu-toggle" class="btn btn-default  navbar-toggle">
             <span class="sr-only">Zeige Sidebar</span>
             <span class="icon-bar"></span>

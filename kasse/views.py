@@ -1,10 +1,16 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, render_to_response, redirect, get_object_or_404
+from django.db.models import Sum
 from django.template import RequestContext
+from django.views.generic import ListView, DetailView
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
 from django.http import HttpResponse
 from django.utils.html import escape
 import json
 from kasse.models import Veranstaltung, Person, Buchung, Veranstaltungsposition
+
+from django.core import serializers
 
 def index(request):
     context = {
@@ -13,28 +19,56 @@ def index(request):
         'location': "index",
     }
     return render(request, 'kasse/dashboard.tpl', context)
+
+
+class BuchungenList(ListView):
+    model = Buchung
+    context_object_name = 'buchungen'
+    template_name = 'kasse/buchungen.tpl'
+    
+    def get_context_data(self, **kwargs):
+        context = super(BuchungenList, self).get_context_data(**kwargs)
+        context['buchungen_saldo'] = float(Buchung.objects.all().aggregate(Sum('betrag'))['betrag__sum'])
+        context['veranstaltungen_kosten'] = float(Veranstaltungsposition.objects.all().aggregate(Sum('betrag'))['betrag__sum'])
+        context['saldo'] = float(context['buchungen_saldo'] - context['veranstaltungen_kosten'])
+        context['location'] = "buchungen"
+        return context
+        
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(BuchungenList, self).dispatch(*args, **kwargs)        
+         
+class VeranstaltungView(DetailView):
+    model = Veranstaltung
+    context_object_name = 'veranstaltung'
+    template_name = 'kasse/veranstaltungen.tpl'
+    
+    def get_context_data(self, **kwargs):
+        context = super(VeranstaltungView, self).get_context_data(**kwargs)
+        context['veranstaltungen'] = Veranstaltung.objects.all().order_by('datum')
+        context['personen'] = Person.objects.all()
+               
+        teilnehmer_table = []
+        for p in context['personen']:
+            row = [unicode(p)]
+            for pos in context['veranstaltung'].positionen():
+                row.append(unicode(pos.verwendungszweck) in p.positionen(context['veranstaltung']))
+
+            # Bezahlt?
+            row.append(p.saldo() >= 0)
+            teilnehmer_table.append(row)
+                
+        context['teilnehmer_table'] = teilnehmer_table
+        
+        context['location'] = "veranstaltungen"
+        return context
+        
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(VeranstaltungView, self).dispatch(*args, **kwargs)
     
 
-    
-def buchungen(request):
-    buchungen_saldo = 0
-    veranstaltungen_kosten = 0
-
-    for buchung in Buchung.objects.all():
-        buchungen_saldo += buchung.betrag
-        
-    for veranstaltung in Veranstaltung.objects.all():
-        veranstaltungen_kosten += veranstaltung.kosten()        
-        
-    context = {
-        'buchungen': Buchung.objects.all().order_by('datum'),
-        'buchungen_saldo': buchungen_saldo,
-        'veranstaltungen_kosten': veranstaltungen_kosten,
-        'saldo' : buchungen_saldo - veranstaltungen_kosten,
-        'location': "buchungen",
-    }
-    return render(request, 'kasse/buchungen.tpl', context)
-
+@login_required
 def person(request, person_slug):
     if person_slug == None:
         person = Person.objects.all().first()
@@ -56,27 +90,7 @@ def person(request, person_slug):
 
     return render(request, 'kasse/personen.tpl', context)
     
-    
-def veranstaltungen(request, veranstaltung_slug):
-    if veranstaltung_slug == None:
-        veranstaltung = Veranstaltung.objects.all().first()
-        if veranstaltung:
-            return redirect('veranstaltungen', veranstaltung.slug)
-
-    veranstaltung = None
-    try:
-        veranstaltung = Veranstaltung.objects.get(slug=veranstaltung_slug)
-    except:
-        pass
-        
-    context = {
-        'veranstaltungen': Veranstaltung.objects.all().order_by('datum'),
-        'personen': Person.objects.all(),
-        'veranstaltung' : veranstaltung,
-        'location':        "veranstaltungen",
-    }
-    return render(request, 'kasse/veranstaltungen.tpl', context)
-    
+@login_required    
 def teilnehmer_json(request, veranstaltung_slug):
     veranstaltung = get_object_or_404(Veranstaltung, slug=veranstaltung_slug)
     

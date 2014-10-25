@@ -11,4 +11,5 @@ urlpatterns = patterns('',
     url(r'^$', RedirectView.as_view(url='kasse/', permanent=False), name='index'),
     url(r'^kasse/', include('kasse.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^accounts/', include(admin.site.urls)),
 )

@@ -47,7 +47,6 @@
                 </tr>-->
             </table>
         </div>
-        <button type="button" class="btn btn-success pull-right">Hinzuf&uuml;gen</button>
     {% endif %}
 {% endblock %}
 

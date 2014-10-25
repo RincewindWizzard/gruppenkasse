@@ -62,9 +62,10 @@ class Person(models.Model):
                 veranstaltungen.append(position.veranstaltung)
         return veranstaltungen
     
-    def positionen(self, veranstaltung):
+    def positionen(self, veranstaltung=None):
         pos = []
-        for position in self.teilnahmen.filter(veranstaltung=veranstaltung):
+        
+        for position in self.teilnahmen.all() if veranstaltung == None else self.teilnahmen.filter(veranstaltung=veranstaltung):
             pos.append(unicode(position.verwendungszweck))
         return pos
     

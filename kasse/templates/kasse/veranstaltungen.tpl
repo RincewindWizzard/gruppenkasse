@@ -7,15 +7,7 @@
             {% for v in veranstaltungen %}
                 <li class="{% ifequal veranstaltung v %}active{% endifequal %}"><a href="{% url 'veranstaltungen' v.slug %}" class="navbar-link">{{ v }}</a></li>
             {% endfor %}
-            <li class="nav-divider"></li>
-            <li>
-                <div class="input-group">
-                  <input type="text" class="form-control">
-                  <span class="input-group-btn">
-                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-plus"></span></button>
-                  </span>
-                </div><!-- /input-group -->
-            </li>
+           
         </ul>
     </div>
 {% endblock %}
@@ -44,15 +36,14 @@
                         {% for position in veranstaltung.positionen %}
                             <th>{{ position.verwendungszweck }}</th>
                         {% endfor %}
-                        <th>Bezahlt</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for person in veranstaltung.teilnehmer %}
-                        <tr>
-                            <td>{{person.vorname}}</td>
-                            {% for position in veranstaltung.positionen %}
-                                <td>{{person.positionen}}{% if position.verwendungszweck in person.positionen %}True{% else %}False {% endif %}</td>
+                    {% for row in teilnehmer_table %}
+                        <tr class="{% if row|last %} success {% else %} danger {% endif %}">
+                            <td><a href="{% url 'person' row|first|slugify %}">{{ row|first }}</a></td>
+                            {% for col in row|slice:"1:-1" %}
+                                <td><form><input class='readonly' type="checkbox"  {% if col %}checked{% endif %}></form></td>
                             {% endfor %}
                         </tr>
                     {% endfor %}
